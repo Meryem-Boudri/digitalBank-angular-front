@@ -1,0 +1,108 @@
+<div class="container mt-2">
+
+  <div class="row">
+    <div class="col col-md-6">
+      <div class="card-header">Accounts</div>
+
+      <div class="card-body">
+
+          <form [formGroup]="accountFormGroup" (ngSubmit)="handleSearchAccount()">
+            <div class="input-group">
+              <label class="form-label">Account Id</label>
+              <input class="form-control" formControlName="id">
+              <button class="btn btn-success"><i class="bi-search"></i></button>
+            </div>
+
+
+          </form>
+
+          <ng-container *ngIf="account">
+
+
+            <h5>Id: {{ account.accountId }}</h5>
+
+
+            <h5>Balance : {{ account.balance }}</h5>
+
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Id</th>
+                <th>Balance</th>
+                <th>Type</th>
+                <th>Date</th>
+              </tr>
+              </thead>
+              <tbody *ngIf="account">
+              <tr *ngFor="let a of account.accountOperationDTOS  ">
+                <td>{{ a.id }}</td>
+                <td>{{ a.amount }}</td>
+                <td>{{ a.type }}</td>
+                <td>{{ a.description }}</td>
+
+
+              </tr>
+              </tbody>
+            </table>
+
+            <ul class="nav nav-pills">
+              <li *ngFor="let item of [].constructor(account.totalPages);let page=index">
+                <a [ngClass]="page==page?'btn-info':'btn-outline-info'" (click)="gotoPage(page)"
+                   class="btn  ms-1 mt-1">{{ page + 1 }}</a>
+              </li>
+            </ul>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card" *ngIf="account">
+          <div class="card-header">Operations</div>
+          <div class="card-body">
+
+            <form [formGroup]="operationFormGroup" *ngIf="accountFormGroup.value.id" (ngSubmit)="handleOperation()">
+              {{ this.account.accountId }}
+              {{ operationFormGroup.value.operationType }}
+              {{ operationFormGroup.value.amount }}
+              <div class="form-check-input">
+                <input class="input-group" type="radio" formControlName="operationType" value="DEBIT">
+                <label class="form-label">DEBIT</label>
+              </div>
+              <div class="form-check-input">
+                <input class="input-group" type="radio" formControlName="operationType" value="CREDIT">
+                <label class="form-label">CREDIT</label>
+              </div>
+
+              <div class="form-check-input">
+                <input class="input-group" type="radio" formControlName="operationType" value="TRANSFER">
+                <label class="form-label">TRANSFER</label>
+              </div>
+              <div class="mb-3" *ngIf="operationFormGroup.value.operationType=='TRANSFER'">
+                <label class="form-label">Destination Account :</label>
+                <input type="text" class="input-group" formControlName="accountDestination">
+
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Amount :</label>
+                <input type="number" class="input-group" formControlName="amount">
+
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Description :</label>
+                <input type="text" class="input-group" formControlName="description">
+
+              </div>
+              <div class="d-grid mb-3">
+                <button class="btn btn-success">Save Operation</button>
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>

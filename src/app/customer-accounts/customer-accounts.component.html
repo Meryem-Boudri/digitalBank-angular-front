@@ -1,0 +1,25 @@
+<div class="container">
+
+  <div class="card">
+    <div class="card-header" *ngIf="customer">{{ customer.name }} account's</div>
+    <div class="card-body">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>ID</th><th>TYPE</th><th>Balance</th><th>Creation Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let a of accounts ">
+        <td>{{a.id}}</td>
+        <td>{{a.type}}</td>
+        <td>{{a.balance}}</td>
+        <td>{{a.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+      </tr>
+
+
+</tbody>
+    </table>
+    </div>
+  </div>
+</div>
